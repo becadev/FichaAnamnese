@@ -3,8 +3,8 @@ services:
     build: .
     ports:
       - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://becadev:bd!Q@W#E$R1@db:5432/fichas_anamnese_bd
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
@@ -12,14 +12,18 @@ services:
 
   db:
     image: postgres:16-alpine
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
     environment:
-      POSTGRES_USER: becadev
-      POSTGRES_PASSWORD: bd!Q@W#E$R1
-      POSTGRES_DB: fichas_anamnese_bd
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U becadev -d fichas_anamnese_bd"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -28,9 +32,11 @@ services:
     image: dpage/pgadmin4
     ports:
       - "5050:80"
+    env_file:
+      - .env
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@email.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
 
 volumes:
   postgres_data:
