@@ -3,7 +3,7 @@ from sqlalchemy import (
     BigInteger, Column, ForeignKey, String,
 )
 from sqlalchemy.orm import DeclarativeBase, relationship
-from ..app.modules.fichas.models import FichaResposta, FichaPergunta
+from app.modules.fichas.models import FichaResposta, FichaPergunta
 
 class Base(DeclarativeBase):
     pass

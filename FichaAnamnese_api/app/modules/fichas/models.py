@@ -1,11 +1,11 @@
 
-from app.models import Base
+from app.database import Base
 from typing import List
 from sqlalchemy import (
     BigInteger, Column, Date, ForeignKey, Integer, String,
 )
 from sqlalchemy.orm import relationship
-from FichaAnamnese_api.app.models import Tipo
+from app.models import Tipo
 from ..usuario.models import Pessoa
 from .models import Status
 

@@ -1,5 +1,5 @@
 from ast import List
-from app.models import Base
+from app.database import Base
 from pydantic import BaseModel, EmailStr
 from sqlalchemy import (
     BigInteger,
