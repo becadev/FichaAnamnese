@@ -11,5 +11,7 @@
 6. Como estetiscista, quero poder visualizar os formulários por status.
 7. Como estetiscista, quero criar um link de avaliação para o cliente de determinado atendimento do formulário de anamnse 
 8. Como cliente, quero poder avaliar o serviço quando o status do atendimento for "em acompanhamento" ou "finalizado"
+9. Como estetiscista, quero poder adicionar novos serviços para que possa ser exibido na listagem de criação de fichas de anamnse
+10. Como estetiscista, quero aiva ou desativar serviços
 
 
