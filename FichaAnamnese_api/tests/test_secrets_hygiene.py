@@ -119,13 +119,18 @@ def _ler(caminho: Path) -> str | None:
 
 
 def test_nenhum_segredo_literal_em_arquivo_versionado() -> None:
+    este_arquivo = Path(__file__).resolve()
+
     problemas: list[str] = []
     for arquivo in _arquivos_versionados():
         texto = _ler(arquivo)
         if texto is None:
             continue
         rel = arquivo.relative_to(REPO)
-        problemas += [f"{rel}: {v}" for v in violacoes_de_padrao(texto)]
+        # Este módulo carrega credenciais FALSAS de propósito (fixtures dos
+        # testes de erro); só a checagem por hash faz sentido nele.
+        if arquivo.resolve() != este_arquivo:
+            problemas += [f"{rel}: {v}" for v in violacoes_de_padrao(texto)]
         problemas += [f"{rel}: {v}" for v in tokens_comprometidos(texto)]
 
     assert not problemas, "Segredos literais versionados:\n" + "\n".join(problemas)
@@ -247,7 +252,7 @@ def test_compose_config_falha_sem_variavel_obrigatoria(tmp_path: Path) -> None:
     # O compose aborta na primeira variável obrigatória que faltar; qual delas
     # é reportada varia com a ordem de avaliação dos serviços.
     assert "required variable" in resultado.stderr
-    assert any(
-        var in resultado.stderr
-        for var in ("POSTGRES_PASSWORD", "POSTGRES_DB", "PGADMIN_DEFAULT_")
-    ), resultado.stderr
+    compose = (API_DIR / "docker-compose.yml").read_text(encoding="utf-8")
+    obrigatorias = set(re.findall(r"\$\{([A-Z_][A-Z0-9_]*):\?", compose))
+    assert obrigatorias, "o compose deveria marcar variáveis com `${VAR:?}`"
+    assert any(var in resultado.stderr for var in obrigatorias), resultado.stderr
