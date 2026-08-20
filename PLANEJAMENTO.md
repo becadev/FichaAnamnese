@@ -16,8 +16,8 @@
 ### 1.2. Problemas que precisam ser corrigidos antes de evoluir
 
 **🔴 Segurança (urgente)**
-- O `docker-compose.yml` versiona **senha do banco em texto puro** (`bd!Q@W#E$R1`) e a senha do pgAdmin (`admin`). Como o repositório ficou público, **considere esses segredos comprometidos**: gere novas senhas e nunca mais as versione (use `.env` + `.gitignore`).
-- Essa mesma senha tem caracteres especiais (`!@#$`) que **quebram a `DATABASE_URL`** sem URL-encoding (`@` e `#` são delimitadores de URL).
+- O `docker-compose.yml` versionava **senha do banco em texto puro** e a senha do pgAdmin (valores omitidos aqui de propósito — veja o histórico do git). Como o repositório ficou público, **considere esses segredos comprometidos**: gere novas senhas e nunca mais as versione (use `.env` + `.gitignore`). *(Tratado em F0-T1.)*
+- Essa mesma senha tinha caracteres especiais (`!@#$`) que **quebram a `DATABASE_URL`** sem URL-encoding (`@` e `#` são delimitadores de URL).
 
 **🔴 A API não sobe hoje (imports quebrados)**
 - `app/models.py`: `from ..app.modules.fichas.models import ...` — caminho relativo inválido.
