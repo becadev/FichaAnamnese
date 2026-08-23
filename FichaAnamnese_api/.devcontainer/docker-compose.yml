@@ -1,0 +1,38 @@
+# Override aplicado APENAS pelo Dev Container, sobre o ../docker-compose.yml.
+# Não afeta `docker compose up` normal, que continua usando só o arquivo de cima.
+#
+# Atenção: com múltiplos arquivos, o Compose resolve caminhos relativos a partir
+# do diretório do PRIMEIRO arquivo (../docker-compose.yml), ou seja
+# FichaAnamnese_api/. Por isso o bind mount abaixo é `..` para alcançar a raiz
+# do repositório, que fica um nível acima desta pasta.
+services:
+  api:
+    # Troca a imagem de produção pela de dev: mesma base, mais git, sudo, psql,
+    # Docker CLI e as ferramentas de teste. Ver ./Dockerfile.
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    # Nome próprio para a imagem: os dois arquivos compartilham o nome de projeto
+    # do Compose, então sem isto o build de dev sobrescreveria o de produção.
+    image: fichaanamnese-api-dev
+
+    volumes:
+      # Monta o código do host em vez de usar a cópia feita no build:
+      # editar no VS Code reflete no container na hora.
+      #
+      # Monta a RAIZ do repositório, não só esta pasta: o .git fica um nível
+      # acima, e sem ele o git não funciona dentro do container — nem o
+      # tests/test_secrets_hygiene.py, que varre os arquivos versionados.
+      - ..:/workspaces/FichaAnamnese:cached
+      # Daemon do host: `docker compose` de dentro enxerga db e pgadmin.
+      # Quem alinha o grupo do socket é o post-create.sh.
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /workspaces/FichaAnamnese/FichaAnamnese_api
+
+    # O uvicorn não pode segurar o PID 1: o VS Code precisa do container vivo
+    # para se conectar. Suba a API manualmente no terminal integrado:
+    #   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    command: sleep infinity
+
+    # `unless-stopped` faria o container voltar sozinho depois de fechar o VS Code.
+    restart: "no"

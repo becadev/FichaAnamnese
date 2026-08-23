@@ -17,3 +17,8 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+# Os modelos anotam os relacionamentos no estilo antigo (`List["Usuario"]`, e não
+# `Mapped[List["Usuario"]]`). Sem isto o SQLAlchemy 2.0 recusa a anotação e nem
+# chega a montar a classe.
+Base.__allow_unmapped__ = True
