@@ -1,13 +1,17 @@
 
 from app.database import Base
-from typing import List
+from typing import TYPE_CHECKING, List
 from sqlalchemy import (
     BigInteger, Column, Date, ForeignKey, Integer, String,
 )
 from sqlalchemy.orm import relationship
-from app.models import Tipo
-from ..usuario.models import Pessoa
-from .models import Status
+
+# Só para os type checkers: importar estes de verdade fecharia um ciclo com
+# app.models e com o módulo de usuário. Em runtime o SQLAlchemy resolve o outro
+# lado do relacionamento pelo nome da classe no registry.
+if TYPE_CHECKING:
+    from app.models import Status, Tipo
+    from ..usuario.models import Pessoa
 
 class Ficha(Base): 
     __tablename__ = "ficha" 

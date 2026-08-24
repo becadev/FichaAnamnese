@@ -1,4 +1,5 @@
-from ast import List
+# `ast.List` é nó de árvore sintática e não aceita subscrição: era o typing.List.
+from typing import TYPE_CHECKING, List
 from app.database import Base
 from pydantic import BaseModel, EmailStr
 from sqlalchemy import (
@@ -9,7 +10,12 @@ from sqlalchemy import (
     UniqueConstraint
 )
 from sqlalchemy.orm import relationship
-from app.models import FichaResposta
+
+# Só para os type checkers: FichaResposta vive em app.modules.fichas.models, e
+# aquele módulo já aponta para cá (Pessoa). Em runtime o SQLAlchemy resolve o
+# outro lado pelo nome da classe no registry.
+if TYPE_CHECKING:
+    from app.modules.fichas.models import FichaResposta
 
 class Usuario(Base):
     __tablename__ = "usuario"

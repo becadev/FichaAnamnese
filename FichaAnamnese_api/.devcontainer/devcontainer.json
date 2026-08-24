@@ -1,0 +1,66 @@
+{
+  "name": "FichaAnamnese API",
+
+  // Reaproveita o compose real do projeto e aplica um override só de dev.
+  // A ordem importa: caminhos relativos resolvem a partir do 1º arquivo.
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.yml"],
+  "service": "api",
+  // O bind mount traz a raiz do repositório (o .git fica um nível acima desta
+  // pasta); o VS Code abre a pasta da API dentro dela.
+  "workspaceFolder": "/workspaces/FichaAnamnese/FichaAnamnese_api",
+
+  // Sem "features": elas baixam tarballs do ghcr.io a cada rebuild, e essa rede
+  // vem cortando com ECONNRESET no meio do download, derrubando o build sem
+  // retry. usuário vscode, git, sudo, psql e Docker CLI agora vêm via apt no
+  // ./Dockerfile, que é reprodutível e cacheável.
+  "remoteUser": "vscode",
+
+  "forwardPorts": [8000, "db:5432", "pgadmin:80"],
+  "portsAttributes": {
+    "8000": { "label": "API (FastAPI)", "onAutoForward": "notify" },
+    "5432": { "label": "Postgres", "onAutoForward": "silent" },
+    "80": { "label": "pgAdmin", "onAutoForward": "silent" }
+  },
+
+  // As dependências já vêm instaladas na imagem; aqui sobra só o que depende do
+  // container estar de pé — alinhar o grupo do socket do Docker.
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "remoteEnv": {  // variáveis de ambiente que o vscode passa para o container
+    "PYTHONPATH": "${containerWorkspaceFolder}"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [ // extensoes uteis de dev para o vscode
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy",
+        "charliermarsh.ruff",
+        "ms-azuretools.vscode-docker",
+        "ckolkman.vscode-postgres",
+        "humao.rest-client",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker",
+        "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+        "Anthropic.claude-code"
+
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python", // aponta o python do contianer
+        "python.testing.pytestEnabled": true, // habilita o pytest
+        "python.testing.pytestArgs": ["tests"],
+        "editor.formatOnSave": true, // formata o codigo
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit" // reodernar e remove imports não usados
+          }
+        },
+        "cSpell.language": "en,pt,pt-BR" // habilita ortografia portugues 
+      }
+    }
+  }
+}
