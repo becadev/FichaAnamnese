@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
 
-# Todo `run` executa dentro da API; o checkout continua na raiz do repositório.
+# Todo `run` executa dentro da API; 
 defaults:
   run:
     working-directory: FichaAnamnese_api
@@ -16,7 +16,6 @@ jobs:
     name: Testes
     runs-on: ubuntu-latest
     steps:
-      # Os testes de higiene usam `git ls-files` e `git check-ignore`,
       - name: Baixar o código
         uses: actions/checkout@v4
 
