@@ -24,7 +24,9 @@ python3 -c "import secrets; print(secrets.token_urlsafe(24))"
 
 Preencha `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`,
 `PGADMIN_DEFAULT_EMAIL`, `PGADMIN_DEFAULT_PASSWORD` e monte a `DATABASE_URL` com
-os mesmos valores. Se a senha tiver caracteres especiais, faça URL-encode dela:
+os mesmos valores. O driver é o `psycopg` v3 — a URL começa com
+`postgresql+psycopg://`. Se a senha tiver caracteres especiais, faça URL-encode
+dela:
 
 ```bash
 python3 -c "from urllib.parse import quote; print(quote(input(), safe=''))"
@@ -63,9 +65,20 @@ docker compose up -d --build
 > (`git filter-repo`) é opcional; o essencial é que as senhas antigas não sejam
 > mais válidas em lugar nenhum.
 
-## Testes
+## Desenvolvimento e testes
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install pytest
-.venv/bin/pytest FichaAnamnese_api/tests
+python3 -m venv .venv
+.venv/bin/pip install -r FichaAnamnese_api/requirements.txt \
+                      -r FichaAnamnese_api/requirements-dev.txt
+```
+
+Rode tudo a partir de `FichaAnamnese_api/` (é onde estão o `pyproject.toml` e as
+configurações de `ruff`, `black` e `pytest`):
+
+```bash
+cd FichaAnamnese_api
+../.venv/bin/ruff check .
+../.venv/bin/black --check .
+../.venv/bin/pytest -q
 ```

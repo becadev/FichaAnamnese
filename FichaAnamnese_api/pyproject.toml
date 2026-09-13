@@ -1,0 +1,25 @@
+# Configuração das ferramentas da API. Não empacotamos o projeto (sem [project]):
+# o deploy é via Dockerfile + requirements.txt.
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+extend-exclude = [".venv", "alembic/versions"]
+
+[tool.ruff.lint]
+# E/W: pycodestyle · F: pyflakes · I: isort (ordem dos imports) · UP: pyupgrade
+# B: bugbear · C4: comprehensions · SIM: simplificações
+select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Coloca a raiz da API no sys.path para que os testes importem `app.*` sem
+# depender de instalação nem de como o pytest foi invocado.
+pythonpath = ["."]

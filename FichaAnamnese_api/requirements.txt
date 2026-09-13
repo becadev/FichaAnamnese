@@ -1,6 +1,22 @@
+# Dependências de runtime da API. Ferramentas de desenvolvimento vivem em
+# requirements-dev.txt (o CI instala os dois).
+
 fastapi==0.111.0
 uvicorn[standard]==0.29.0
 pydantic[email]==2.9.2
+pydantic-settings==2.6.1
 sqlalchemy==2.0.36
-psycopg2-binary==2.9.7
-pytest==9.1.1
+# Driver Postgres v3 — o recomendado pelo Neon; substitui o psycopg2-binary.
+# A DATABASE_URL passa a usar o esquema `postgresql+psycopg://`.
+psycopg[binary]==3.2.3
+alembic==1.14.0
+
+# ---- Autenticação (F1) ----
+passlib[bcrypt]==1.7.4
+# Pinado: o passlib 1.7.4 lê `bcrypt.__about__`, removido no bcrypt >= 4.1, e o
+# hash quebra com "password cannot be longer than 72 bytes".
+bcrypt==4.0.1
+python-jose[cryptography]==3.3.0
+
+# Formulários e upload de arquivo (OAuth2 password flow, imagens da ficha).
+python-multipart==0.0.9

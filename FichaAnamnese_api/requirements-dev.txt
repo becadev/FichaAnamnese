@@ -1,6 +1,8 @@
-fastapi==0.111.0
-uvicorn[standard]==0.29.0
-pydantic[email]==2.9.2
-sqlalchemy==2.0.36
-psycopg2-binary==2.9.7
+# Ferramentas de desenvolvimento e CI. Instale junto com o requirements.txt:
+#   pip install -r requirements.txt -r requirements-dev.txt
+
 pytest==9.1.1
+# Client HTTP usado pelo TestClient do FastAPI nos testes de integração.
+httpx==0.28.1
+ruff==0.16.7
+black==26.5.1
