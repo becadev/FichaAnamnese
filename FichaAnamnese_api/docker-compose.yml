@@ -7,6 +7,9 @@ services:
     # Postgres/pgAdmin. Novas variáveis da API entram explicitamente aqui.
     environment:
       DATABASE_URL: ${DATABASE_URL:?defina DATABASE_URL no .env}
+      JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET no .env}
+      JWT_EXPIRE_MIN: ${JWT_EXPIRE_MIN:-60}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
     depends_on:
       db:
         condition: service_healthy

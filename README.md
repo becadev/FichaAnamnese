@@ -23,10 +23,10 @@ python3 -c "import secrets; print(secrets.token_urlsafe(24))"
 ```
 
 Preencha `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`,
-`PGADMIN_DEFAULT_EMAIL`, `PGADMIN_DEFAULT_PASSWORD` e monte a `DATABASE_URL` com
-os mesmos valores. O driver é o `psycopg` v3 — a URL começa com
-`postgresql+psycopg://`. Se a senha tiver caracteres especiais, faça URL-encode
-dela:
+`PGADMIN_DEFAULT_EMAIL`, `PGADMIN_DEFAULT_PASSWORD`, `JWT_SECRET` (mesmo gerador
+de segredo) e monte a `DATABASE_URL` com os mesmos valores. O driver é o
+`psycopg` v3 — a URL começa com `postgresql+psycopg://`. Se a senha tiver
+caracteres especiais, faça URL-encode dela:
 
 ```bash
 python3 -c "from urllib.parse import quote; print(quote(input(), safe=''))"

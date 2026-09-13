@@ -230,6 +230,7 @@ def test_compose_config_resolve_variaveis(tmp_path: Path) -> None:
         "POSTGRES_DB=banco_teste\n"
         "PGADMIN_DEFAULT_EMAIL=teste@example.com\n"
         "PGADMIN_DEFAULT_PASSWORD=pgadmin_de_teste\n"
+        "JWT_SECRET=jwt_de_teste\n"
         "DATABASE_URL=postgresql+psycopg://usuario_teste:senha_de_teste@db:5432/banco_teste\n",
         encoding="utf-8",
     )
