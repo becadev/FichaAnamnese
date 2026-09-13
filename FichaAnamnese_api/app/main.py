@@ -1,17 +1,14 @@
+"""Ponto de entrada da API."""
+
 from fastapi import FastAPI
 
-app = FastAPI()
+# Importar o pacote registra todos os models no metadata da Base. O schema em si
+# passa a ser criado pelo Alembic (F0-T7) — `create_all` sai de cena.
+from app import models  # noqa: F401
 
-from app.database import Base, engine
-# Todo módulo de modelo precisa ser importado antes do create_all: é o import que
-# registra a classe no metadata. app.models traz Status e Tipo, que antes só
-# chegavam de carona nos imports cruzados entre os módulos.
-from app.models import *
-from app.modules.usuario.models import *
-from app.modules.fichas.models import *
+app = FastAPI(title="Ficha Anamnese API")
 
-Base.metadata.create_all(bind=engine)
 
 @app.get("/")
-def raiz():
+def raiz() -> dict[str, str]:
     return {"mensagem": "API rodando!"}

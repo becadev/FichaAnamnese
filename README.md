@@ -65,6 +65,25 @@ docker compose up -d --build
 > (`git filter-repo`) é opcional; o essencial é que as senhas antigas não sejam
 > mais válidas em lugar nenhum.
 
+## Estrutura da API
+
+```
+FichaAnamnese_api/
+  app/
+    core/      config.py (settings do .env), database.py (Base + engine/sessão)
+    models/    models SQLAlchemy, um arquivo por agregado
+    schemas/   schemas Pydantic (separados dos models)
+    routers/   endpoints FastAPI
+    services/  regras de negócio
+    main.py    cria o app e registra os routers
+  tests/
+```
+
+A `Base` declarativa é única e vive em `app/core/database.py`; todo import
+interno é absoluto a partir de `app.` (`from app.models.status import Status`).
+O schema do banco passa a ser criado pelo Alembic (F0-T7) — não há mais
+`create_all` no start da aplicação.
+
 ## Desenvolvimento e testes
 
 ```bash
