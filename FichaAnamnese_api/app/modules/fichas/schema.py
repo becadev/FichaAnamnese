@@ -1,5 +1,7 @@
 from datetime import date
+
 from pydantic import BaseModel
+
 from FichaAnamnese_api.app.models import StatusRead, TipoRead
 from FichaAnamnese_api.app.modules.usuario.models import PessoaRead
 

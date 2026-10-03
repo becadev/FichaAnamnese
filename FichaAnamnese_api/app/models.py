@@ -1,6 +1,9 @@
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
+
 from sqlalchemy import (
-    BigInteger, Column, String,
+    BigInteger,
+    Column,
+    String,
 )
 from sqlalchemy.orm import relationship
 
@@ -24,7 +27,7 @@ class Status(Base):
     descricao = Column(String(255), nullable=False)
 
     # Relacionamentos reversos
-    ficha_respostas: List["FichaResposta"] = relationship(
+    ficha_respostas: list["FichaResposta"] = relationship(
         "FichaResposta", back_populates="status"
     )
 
@@ -40,6 +43,6 @@ class Tipo(Base):
     descricao = Column(String(255), nullable=False)
 
     # Relacionamentos reversos
-    ficha_perguntas: List["FichaPergunta"] = relationship(
+    ficha_perguntas: list["FichaPergunta"] = relationship(
         "FichaPergunta", back_populates="tipo", foreign_keys="FichaPergunta.tipo_id"
     )

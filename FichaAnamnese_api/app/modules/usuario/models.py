@@ -1,14 +1,9 @@
 # `ast.List` é nó de árvore sintática e não aceita subscrição: era o typing.List.
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
+
 from app.database import Base
 from pydantic import BaseModel, EmailStr
-from sqlalchemy import (
-    BigInteger,
-    Column,
-    ForeignKey,
-    String,
-    UniqueConstraint
-)
+from sqlalchemy import BigInteger, Column, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 # Só para os type checkers: FichaResposta vive em app.modules.fichas.models, e
@@ -54,8 +49,8 @@ class Pessoa(Base):
     sobrenome = Column(BigInteger, nullable=False)  # mantido como no DDL original
 
     # Relacionamentos reversos
-    usuarios: List["Usuario"] = relationship("Usuario", back_populates="pessoa")
-    ficha_respostas: List["FichaResposta"] = relationship(
+    usuarios: list["Usuario"] = relationship("Usuario", back_populates="pessoa")
+    ficha_respostas: list["FichaResposta"] = relationship(
         "FichaResposta", back_populates="pessoa"
     )
 
