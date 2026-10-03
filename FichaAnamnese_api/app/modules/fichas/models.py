@@ -1,8 +1,14 @@
 
+from typing import TYPE_CHECKING
+
 from app.database import Base
-from typing import TYPE_CHECKING, List
 from sqlalchemy import (
-    BigInteger, Column, Date, ForeignKey, Integer, String,
+    BigInteger,
+    Column,
+    Date,
+    ForeignKey,
+    Integer,
+    String,
 )
 from sqlalchemy.orm import relationship
 
@@ -11,6 +17,7 @@ from sqlalchemy.orm import relationship
 # lado do relacionamento pelo nome da classe no registry.
 if TYPE_CHECKING:
     from app.models import Status, Tipo
+
     from ..usuario.models import Pessoa
 
 class Ficha(Base): 
@@ -20,8 +27,8 @@ class Ficha(Base):
     dt_inclusao = Column(Date, nullable=False) 
     titulo = Column(String(255), nullable=False) 
     # Relacionamentos reversos 
-    ficha_perguntas: List["FichaPergunta"] = relationship( "FichaPergunta", back_populates="ficha" ) 
-    ficha_respostas: List["FichaResposta"] = relationship( "FichaResposta", back_populates="ficha" )
+    ficha_perguntas: list["FichaPergunta"] = relationship( "FichaPergunta", back_populates="ficha" ) 
+    ficha_respostas: list["FichaResposta"] = relationship( "FichaResposta", back_populates="ficha" )
 
 
 class FichaPergunta(Base):
@@ -37,7 +44,7 @@ class FichaPergunta(Base):
         "Tipo", back_populates="ficha_perguntas", foreign_keys=[tipo_id]
     )
     ficha: "Ficha" = relationship("Ficha", back_populates="ficha_perguntas")
-    opcoes: List["FichaPerguntaOpcao"] = relationship(
+    opcoes: list["FichaPerguntaOpcao"] = relationship(
         "FichaPerguntaOpcao", back_populates="ficha_pergunta"
     )
 
@@ -57,7 +64,7 @@ class FichaPerguntaOpcao(Base):
     ficha_pergunta: "FichaPergunta" = relationship(
         "FichaPergunta", back_populates="opcoes"
     )
-    pergunta_respostas: List["PerguntaResposta"] = relationship(
+    pergunta_respostas: list["PerguntaResposta"] = relationship(
         "PerguntaResposta", back_populates="resposta_opcao"
     )
 
@@ -85,10 +92,10 @@ class FichaResposta(Base):
     ficha: "Ficha" = relationship("Ficha", back_populates="ficha_respostas")
     pessoa: "Pessoa" = relationship("Pessoa", back_populates="ficha_respostas")
     status: "Status" = relationship("Status", back_populates="ficha_respostas")
-    pergunta_respostas: List["PerguntaResposta"] = relationship(
+    pergunta_respostas: list["PerguntaResposta"] = relationship(
         "PerguntaResposta", back_populates="ficha_resposta"
     )
-    imagens: List["FichaImagens"] = relationship(
+    imagens: list["FichaImagens"] = relationship(
         "FichaImagens", back_populates="ficha_resposta"
     )
 

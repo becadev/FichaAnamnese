@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 # --- Status ---
 class StatusBase(BaseModel):
     descricao: str
