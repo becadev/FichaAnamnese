@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: ['**']
   pull_request:
-    branches: [main]
+    branches: ['**']
 
 # Todo `run` executa dentro da API; 
 defaults:
@@ -35,7 +35,17 @@ jobs:
 
       - name: Executar testes
         run: pytest -q
+  lint: 
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
 
+      - name: Rodar Ruff Linter
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: "check"
   imagem:
     name: Build da imagem
     runs-on: ubuntu-latest
