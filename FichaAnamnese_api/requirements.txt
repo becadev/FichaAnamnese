@@ -1,26 +1,29 @@
 # Dependências de produção. Ferramentas de desenvolvimento ficam em
 # requirements-dev.txt (não entram na imagem Docker).
+
 # ---- Web / API ----
 fastapi==0.111.0
 uvicorn[standard]==0.29.0
 python-multipart==0.0.31
+
 # ---- Validação e configuração ----
 pydantic[email]==2.9.2
 pydantic-settings==2.6.1
 python-dotenv==1.2.3
+
 # ---- Banco de dados ----
 # O driver é o psycopg2: a DATABASE_URL usa o prefixo postgresql+psycopg2://
 # (ver .env.example). Trocar para psycopg 3 exige mudar o prefixo também.
 sqlalchemy==2.0.36
 psycopg2-binary==2.9.7
 alembic==1.14.0
+
 # ---- Autenticação ----
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 # bcrypt travado em 4.0.x: a partir da 4.1 o passlib 1.7.4 quebra ao ler
 # bcrypt.__about__.__version__.
 bcrypt==4.0.1
+
 # Auditoria de vulnerabilidades das dependências.
 pip-audit==2.10.1
-    # pip-audit: subdependency explicitly fixed
-starlette==1.3.1
