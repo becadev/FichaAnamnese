@@ -1,4 +1,3 @@
-# `ast.List` é nó de árvore sintática e não aceita subscrição: era o typing.List.
 from typing import TYPE_CHECKING
 
 from app.database import Base
