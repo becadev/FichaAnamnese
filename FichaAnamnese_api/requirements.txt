@@ -15,7 +15,7 @@ python-dotenv==1.2.3
 # O driver é o psycopg2: a DATABASE_URL usa o prefixo postgresql+psycopg2://
 # (ver .env.example). Trocar para psycopg 3 exige mudar o prefixo também.
 sqlalchemy==2.0.36
-psycopg2-binary==2.9.7
+psycopg2-binary==2.9.13
 alembic==1.14.0
 
 # ---- Autenticação ----
