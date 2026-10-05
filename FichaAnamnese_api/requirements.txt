@@ -9,7 +9,7 @@ python-multipart==0.0.31
 # ---- Validação e configuração ----
 pydantic[email]==2.9.2
 pydantic-settings==2.6.1
-python-dotenv==1.2.3
+python-dotenv==1.2.4
 
 # ---- Banco de dados ----
 # O driver é o psycopg2: a DATABASE_URL usa o prefixo postgresql+psycopg2://
