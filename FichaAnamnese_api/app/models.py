@@ -27,9 +27,7 @@ class Status(Base):
     descricao = Column(String(255), nullable=False)
 
     # Relacionamentos reversos
-    ficha_respostas: list["FichaResposta"] = relationship(
-        "FichaResposta", back_populates="status"
-    )
+    ficha_respostas: list["FichaResposta"] = relationship("FichaResposta", back_populates="status")
 
 
 class Tipo(Base):

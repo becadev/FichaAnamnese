@@ -1,0 +1,26 @@
+# Configuração do Ruff (linter e formatador). Vale para `ruff check` e `ruff format`.
+# O Ruff procura este arquivo subindo as pastas a partir de onde é executado;
+# o CI e o scripts/ci-local.sh rodam na raiz, por isso ele fica aqui.
+
+# Tamanho máximo da linha. O `ruff format` quebra ou junta linhas com base nesse valor.
+line-length = 100
+
+# Versão do Python alvo (a mesma do CI e do Dockerfile).
+# Define qual sintaxe é válida e o que o `UP` pode sugerir.
+target-version = "py311"
+
+[lint]
+# Famílias de regras verificadas pelo `ruff check`.
+select = [
+  "E", "W",   # pycodestyle: estilo
+  "F",        # pyflakes: imports e variáveis não usados, nomes indefinidos
+  "I",        # ordenação de imports (isort)
+  "N",        # convenções de nomes (PEP 8)
+  "UP",       # sintaxe moderna do Python
+  "B",        # bugs prováveis (bugbear)
+]
+
+[format]
+# Aspas duplas e indentação com espaços.
+quote-style = "double"
+indent-style = "space"

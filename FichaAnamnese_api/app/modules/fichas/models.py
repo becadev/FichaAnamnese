@@ -1,4 +1,3 @@
-
 from typing import TYPE_CHECKING
 
 from app.database import Base
@@ -20,15 +19,16 @@ if TYPE_CHECKING:
 
     from ..usuario.models import Pessoa
 
-class Ficha(Base): 
-    __tablename__ = "ficha" 
-    id = Column(BigInteger, primary_key=True) 
-    servico = Column(BigInteger, nullable=False) 
-    dt_inclusao = Column(Date, nullable=False) 
-    titulo = Column(String(255), nullable=False) 
-    # Relacionamentos reversos 
-    ficha_perguntas: list["FichaPergunta"] = relationship( "FichaPergunta", back_populates="ficha" ) 
-    ficha_respostas: list["FichaResposta"] = relationship( "FichaResposta", back_populates="ficha" )
+
+class Ficha(Base):
+    __tablename__ = "ficha"
+    id = Column(BigInteger, primary_key=True)
+    servico = Column(BigInteger, nullable=False)
+    dt_inclusao = Column(Date, nullable=False)
+    titulo = Column(String(255), nullable=False)
+    # Relacionamentos reversos
+    ficha_perguntas: list["FichaPergunta"] = relationship("FichaPergunta", back_populates="ficha")
+    ficha_respostas: list["FichaResposta"] = relationship("FichaResposta", back_populates="ficha")
 
 
 class FichaPergunta(Base):
@@ -40,9 +40,7 @@ class FichaPergunta(Base):
     ficha_id = Column(BigInteger, ForeignKey("ficha.id"), nullable=False)
     ordem = Column(Integer, nullable=False)
 
-    tipo: "Tipo" = relationship(
-        "Tipo", back_populates="ficha_perguntas", foreign_keys=[tipo_id]
-    )
+    tipo: "Tipo" = relationship("Tipo", back_populates="ficha_perguntas", foreign_keys=[tipo_id])
     ficha: "Ficha" = relationship("Ficha", back_populates="ficha_perguntas")
     opcoes: list["FichaPerguntaOpcao"] = relationship(
         "FichaPerguntaOpcao", back_populates="ficha_pergunta"
@@ -56,14 +54,11 @@ class FichaPerguntaOpcao(Base):
     titulo = Column(String(255), nullable=False)
     ficha_pergunta_id = Column(
         BigInteger,
-        ForeignKey("ficha_pergunta.id",
-                   name="ficha_pergunta_opcao_ficha_pergunta_id_foreign"),
+        ForeignKey("ficha_pergunta.id", name="ficha_pergunta_opcao_ficha_pergunta_id_foreign"),
         nullable=False,
     )
 
-    ficha_pergunta: "FichaPergunta" = relationship(
-        "FichaPergunta", back_populates="opcoes"
-    )
+    ficha_pergunta: "FichaPergunta" = relationship("FichaPergunta", back_populates="opcoes")
     pergunta_respostas: list["PerguntaResposta"] = relationship(
         "PerguntaResposta", back_populates="resposta_opcao"
     )
@@ -95,9 +90,7 @@ class FichaResposta(Base):
     pergunta_respostas: list["PerguntaResposta"] = relationship(
         "PerguntaResposta", back_populates="ficha_resposta"
     )
-    imagens: list["FichaImagens"] = relationship(
-        "FichaImagens", back_populates="ficha_resposta"
-    )
+    imagens: list["FichaImagens"] = relationship("FichaImagens", back_populates="ficha_resposta")
 
 
 class PerguntaResposta(Base):
@@ -107,14 +100,12 @@ class PerguntaResposta(Base):
     reposta_texto = Column(String(255), nullable=False)  # mantido como no DDL original
     resposta_opcao_id = Column(
         BigInteger,
-        ForeignKey("ficha_pergunta_opcao.id",
-                   name="pergunta_resposta_resposta_opcao_id_foreign"),
+        ForeignKey("ficha_pergunta_opcao.id", name="pergunta_resposta_resposta_opcao_id_foreign"),
         nullable=False,
     )
     ficha_resposta_id = Column(
         BigInteger,
-        ForeignKey("ficha_resposta.id",
-                   name="pergunta_resposta_ficha_resposta_id_foreign"),
+        ForeignKey("ficha_resposta.id", name="pergunta_resposta_ficha_resposta_id_foreign"),
         nullable=False,
     )
 
@@ -134,12 +125,8 @@ class FichaImagens(Base):
     descricao = Column(String(255), nullable=False)
     ficha_resposta_id = Column(
         BigInteger,
-        ForeignKey("ficha_resposta.id",
-                   name="ficha_imagens_ficha_resposta_id_foreign"),
+        ForeignKey("ficha_resposta.id", name="ficha_imagens_ficha_resposta_id_foreign"),
         nullable=False,
     )
 
-    ficha_resposta: "FichaResposta" = relationship(
-        "FichaResposta", back_populates="imagens"
-    )
-
+    ficha_resposta: "FichaResposta" = relationship("FichaResposta", back_populates="imagens")

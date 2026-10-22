@@ -139,16 +139,12 @@ def test_nenhum_segredo_literal_em_arquivo_versionado() -> None:
 def test_env_e_ignorado_e_env_example_nao() -> None:
     def ignorado(caminho: str) -> bool:
         return (
-            subprocess.run(
-                ["git", "check-ignore", "-q", caminho], cwd=REPO, check=False
-            ).returncode
+            subprocess.run(["git", "check-ignore", "-q", caminho], cwd=REPO, check=False).returncode
             == 0
         )
 
     assert ignorado("FichaAnamnese_api/.env"), ".env precisa estar no .gitignore"
-    assert not ignorado(
-        "FichaAnamnese_api/.env.example"
-    ), ".env.example deve continuar versionado"
+    assert not ignorado("FichaAnamnese_api/.env.example"), ".env.example deve continuar versionado"
 
 
 def test_env_nao_esta_versionado() -> None:
@@ -206,9 +202,7 @@ def test_scanner_detecta_segredo_comprometido_por_hash() -> None:
 # `docker compose config` resolve o .env (e falha sem ele)
 # --------------------------------------------------------------------------
 
-_sem_docker = pytest.mark.skipif(
-    shutil.which("docker") is None, reason="docker não disponível"
-)
+_sem_docker = pytest.mark.skipif(shutil.which("docker") is None, reason="docker não disponível")
 
 
 def _compose_config(env_file: Path) -> subprocess.CompletedProcess[str]:

@@ -5,8 +5,10 @@ from pydantic import BaseModel
 class StatusBase(BaseModel):
     descricao: str
 
+
 class StatusCreate(StatusBase):
     pass
+
 
 class StatusRead(StatusBase):
     id: int
@@ -17,8 +19,10 @@ class StatusRead(StatusBase):
 class TipoBase(BaseModel):
     descricao: str
 
+
 class TipoCreate(TipoBase):
     pass
+
 
 class TipoRead(TipoBase):
     id: int

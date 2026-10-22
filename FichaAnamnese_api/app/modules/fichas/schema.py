@@ -11,8 +11,10 @@ class FichaBase(BaseModel):
     dt_inclusao: date
     titulo: str
 
+
 class FichaCreate(FichaBase):
     pass
+
 
 class FichaRead(FichaBase):
     id: int
@@ -26,8 +28,10 @@ class FichaPerguntaBase(BaseModel):
     ficha_id: int
     ordem: int
 
+
 class FichaPerguntaCreate(FichaPerguntaBase):
     pass
+
 
 class FichaPerguntaRead(FichaPerguntaBase):
     id: int
@@ -40,8 +44,10 @@ class FichaPerguntaOpcaoBase(BaseModel):
     titulo: str
     ficha_pergunta_id: int
 
+
 class FichaPerguntaOpcaoCreate(FichaPerguntaOpcaoBase):
     pass
+
 
 class FichaPerguntaOpcaoRead(FichaPerguntaOpcaoBase):
     id: int
@@ -54,8 +60,10 @@ class FichaRespostaBase(BaseModel):
     pessoa_id: int
     status_id: int
 
+
 class FichaRespostaCreate(FichaRespostaBase):
     pass
+
 
 class FichaRespostaRead(FichaRespostaBase):
     id: int
@@ -70,8 +78,10 @@ class PerguntaRespostaBase(BaseModel):
     resposta_opcao_id: int
     ficha_resposta_id: int
 
+
 class PerguntaRespostaCreate(PerguntaRespostaBase):
     pass
+
 
 class PerguntaRespostaRead(PerguntaRespostaBase):
     id: int
@@ -85,8 +95,10 @@ class FichaImagensBase(BaseModel):
     descricao: str
     ficha_resposta_id: int
 
+
 class FichaImagensCreate(FichaImagensBase):
     pass
+
 
 class FichaImagensRead(FichaImagensBase):
     id: int

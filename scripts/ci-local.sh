@@ -28,10 +28,15 @@ fi
 
 if [[ "$ALVO" == "tudo" || "$ALVO" == "lint" ]]; then
   # A ruff-action roda na raiz do repositório, não dentro da API.
-  executar lint bash -c "cd '$RAIZ' && '$PY' -m ruff check"
+  executar lint bash -c "cd '$RAIZ' && '$PY' -m ruff format --check && '$PY' -m ruff check"
 fi
 
-if [[ "$ALVO" == "tudo" || "$ALVO" == "imagem" ]]; then
+# No CI, o job imagem tem `needs: [testes, lint]`: só roda se os dois passaram.
+if [[ "$ALVO" == "tudo" && ${#FALHAS[@]} -gt 0 ]]; then
+  echo ""
+  echo "===> imagem"
+  echo "PULADO (depende de: ${FALHAS[*]})"
+elif [[ "$ALVO" == "tudo" || "$ALVO" == "imagem" ]]; then
   executar imagem bash -c "cd '$API' && docker build -t ficha-anamnese-api:local ."
 fi
 
