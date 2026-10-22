@@ -13,6 +13,7 @@ from app.modules.usuario.models import *
 
 Base.metadata.create_all(bind=engine)
 
+
 @app.get("/")
 def raiz():
     return {"mensagem": "API rodando!"}

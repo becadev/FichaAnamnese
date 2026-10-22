@@ -11,34 +11,20 @@ from sqlalchemy.orm import relationship
 if TYPE_CHECKING:
     from app.modules.fichas.models import FichaResposta
 
+
 class Usuario(Base):
     __tablename__ = "usuario"
 
-    __table_args__ = (
-        UniqueConstraint(
-            "email",
-            name="usuario_email_unique"
-        ),
-    )
+    __table_args__ = (UniqueConstraint("email", name="usuario_email_unique"),)
 
     id = Column(BigInteger, primary_key=True)
 
-    email = Column(
-        String(255),
-        nullable=False,
-        unique=True
-    )
+    email = Column(String(255), nullable=False, unique=True)
 
-    pessoa_id = Column(
-        BigInteger,
-        ForeignKey("pessoa.id"),
-        nullable=False
-    )
+    pessoa_id = Column(BigInteger, ForeignKey("pessoa.id"), nullable=False)
 
-    pessoa = relationship(
-        "Pessoa",
-        back_populates="usuarios"
-    )
+    pessoa = relationship("Pessoa", back_populates="usuarios")
+
 
 class Pessoa(Base):
     __tablename__ = "pessoa"
@@ -49,9 +35,7 @@ class Pessoa(Base):
 
     # Relacionamentos reversos
     usuarios: list["Usuario"] = relationship("Usuario", back_populates="pessoa")
-    ficha_respostas: list["FichaResposta"] = relationship(
-        "FichaResposta", back_populates="pessoa"
-    )
+    ficha_respostas: list["FichaResposta"] = relationship("FichaResposta", back_populates="pessoa")
 
 
 # --- Pessoa ---
@@ -59,8 +43,10 @@ class PessoaBase(BaseModel):
     nome: str
     sobrenome: int  # mantido como BigInt conforme DDL
 
+
 class PessoaCreate(PessoaBase):
     pass
+
 
 class PessoaRead(PessoaBase):
     id: int
@@ -72,8 +58,10 @@ class UsuarioBase(BaseModel):
     email: EmailStr
     pessoa_id: int
 
+
 class UsuarioCreate(UsuarioBase):
     pass
+
 
 class UsuarioRead(UsuarioBase):
     id: int
