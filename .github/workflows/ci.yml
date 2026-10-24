@@ -51,10 +51,28 @@ jobs:
         uses: astral-sh/ruff-action@v3
         with:
           args: "check"
+  duplicacao:
+    name: Código duplicado
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Configurar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar o Pylint
+        run: pip install pylint==4.1.3
+
+      # config em .pylintrc (raiz): so a regra duplicate-code e falha se achar duplicação.
+      - name: Detectar código duplicado (Pylint)
+        run: pylint FichaAnamnese_api/app FichaAnamnese_api/tests
   imagem:
     name: Build da imagem
     runs-on: ubuntu-latest
-    needs: [testes, lint]
+    needs: [testes, lint, duplicacao]
     steps:
       - name: Baixar o código
         uses: actions/checkout@v4
