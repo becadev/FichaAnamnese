@@ -9,7 +9,7 @@ enable=duplicate-code
 [SIMILARITIES]
 # Quantidade mínima de linhas semelhantes consecutivas para contar como duplicação.
 min-similarity-lines=2
-ignore-imports=no
+ignore-imports=yes
 
 # Não conta imports, comentários e docstrings como código duplicado.
 ignore-comments=yes
