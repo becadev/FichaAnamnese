@@ -66,9 +66,12 @@ jobs:
       - name: Instalar o Pylint
         run: pip install pylint==4.1.3
 
-      # config em .pylintrc (raiz): so a regra duplicate-code e falha se achar duplicação.
+      # config em .pylintrc (raiz)
+      # pylintrc e os caminhos abaixo partem da raiz do repositório 
       - name: Detectar código duplicado (Pylint)
-        run: pylint FichaAnamnese_api/app FichaAnamnese_api/tests
+        working-directory: .
+        # Arquivos listados um a um: o Pylint não entra em pastas sem __init__.py (ex.: app/modules).
+        run: pylint $(git ls-files 'FichaAnamnese_api/app/*.py' 'FichaAnamnese_api/tests/*.py')
   imagem:
     name: Build da imagem
     runs-on: ubuntu-latest
