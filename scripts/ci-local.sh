@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Reproduz localmente os jobs do .github/workflows/ci.yml.
-# Uso: ./scripts/ci-local.sh [testes|lint|imagem]
+# Uso: ./scripts/ci-local.sh [testes|lint|duplicacao|imagem]
 set -uo pipefail
 
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -31,7 +31,13 @@ if [[ "$ALVO" == "tudo" || "$ALVO" == "lint" ]]; then
   executar lint bash -c "cd '$RAIZ' && '$PY' -m ruff format --check && '$PY' -m ruff check"
 fi
 
-# No CI, o job imagem tem `needs: [testes, lint]`: só roda se os dois passaram.
+if [[ "$ALVO" == "tudo" || "$ALVO" == "duplicacao" ]]; then
+  # Arquivos listados um a um: o Pylint não entra em pastas sem __init__.py (ex.: app/modules).
+  # --cached --others inclui arquivos novos ainda não commitados.
+  executar duplicacao bash -c "cd '$RAIZ' && '$PY' -m pylint \$(git ls-files --cached --others --exclude-standard 'FichaAnamnese_api/app/*.py' 'FichaAnamnese_api/tests/*.py')"
+fi
+
+# No CI, o job imagem tem `needs: [testes, lint, duplicacao]`: só roda se os dois passaram.
 if [[ "$ALVO" == "tudo" && ${#FALHAS[@]} -gt 0 ]]; then
   echo ""
   echo "===> imagem"

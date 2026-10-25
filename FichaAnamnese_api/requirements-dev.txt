@@ -12,3 +12,6 @@ black==26.5.1
 
 # Auditoria de vulnerabilidades das dependências. 
 pip-audit==2.10.1
+
+# Detector de código duplicado (apenas a regra `duplicate-code`; config em .pylintrc na raiz).
+pylint==4.1.3

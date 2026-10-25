@@ -1,0 +1,16 @@
+# Configuração do Pylint, usado SOMENTE para detectar código duplicado (`duplicate-code`).
+# Lint e formatação continuam com o Ruff (ver ruff.toml).
+
+[MASTER]
+# Só a verificação de duplicação fica ligada.
+disable=all
+enable=duplicate-code
+
+[SIMILARITIES]
+# Quantidade mínima de linhas semelhantes consecutivas para contar como duplicação.
+min-similarity-lines=2
+ignore-imports=yes
+
+# Não conta imports, comentários e docstrings como código duplicado.
+ignore-comments=yes
+ignore-docstrings=yes
