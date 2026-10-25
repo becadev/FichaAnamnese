@@ -23,7 +23,7 @@ python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 # bcrypt travado em 4.0.x: a partir da 4.1 o passlib 1.7.4 quebra ao ler
 # bcrypt.__about__.__version__.
-bcrypt==4.0.1
+bcrypt==5.0.0
 
 # Auditoria de vulnerabilidades das dependências.
 pip-audit==2.10.1
