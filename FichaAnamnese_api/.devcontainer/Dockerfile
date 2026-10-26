@@ -6,7 +6,7 @@
 # ferramentaria vem de repositórios apt, que respondem de forma estável.
 #
 # Usa a MESMA base do ../Dockerfile de produção para os dois não divergirem.
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 
